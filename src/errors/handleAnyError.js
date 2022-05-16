@@ -7,8 +7,8 @@ function handleAnyError(err, req, res, next) {
 
   const errorCode = err.status || 500;
   // render the error page
-  res.status(errorCode);
-  res.json(createFailResponse(errorCode, err.message));
+  res.status(200);
+  res.json(createFailResponse(errorCode, `发生错误： ${err.message}`));
 }
 
 module.exports = handleAnyError;

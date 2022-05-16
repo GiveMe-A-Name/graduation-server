@@ -17,13 +17,4 @@ const sequelize = new Sequelize(
   }
 );
 
-async function try_connet() {
-  try {
-    await sequelize.authenticate();
-    console.log("MySQL Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-}
-
-try_connet();
+module.exports = sequelize;

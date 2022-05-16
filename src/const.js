@@ -22,6 +22,10 @@ function createSuccessResponse(data) {
   };
 }
 
+function jsonStringifyErr(e) {
+  return createFailResponse(-10001, `发生错误: ${e.message}`);
+}
+
 module.exports = {
   createFailResponse,
   createSuccessResponse,
