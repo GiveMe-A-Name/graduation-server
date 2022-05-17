@@ -7,6 +7,7 @@ function handleAnyError(err, req, res, next) {
 
   const errorCode = err.status || 500;
   // render the error page
+  console.error(err);
   res.status(200);
   res.json(createFailResponse(errorCode, `发生错误： ${err.message}`));
 }

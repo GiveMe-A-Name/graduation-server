@@ -12,6 +12,7 @@ const usersRouter = require("./routes/users");
 const newsRouter = require("./routes/news");
 const teachersRouter = require("./routes/teachers");
 const coursesRouter = require("./routes/courses");
+const articlesRouter = require('./routes/articles')
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/users", usersRouter);
 app.use("/news", newsRouter);
 app.use("/teachers", teachersRouter);
 app.use("/courses", coursesRouter);
+app.use("/articles", articlesRouter);
 
 // catch 404 and forward to error handler
 app.use(handleNotFound);

@@ -34,6 +34,7 @@ router.get("/:id", async function (req, res, next) {
       msg: teacher.msg,
       work: teacher.work,
       honor: teacher.honor,
+      record: teacher.record,
       pushcourse: teacher.pushCourse,
     };
     res.json(createSuccessResponse(data));
