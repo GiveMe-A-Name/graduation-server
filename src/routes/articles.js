@@ -2,7 +2,7 @@ const express = require("express");
 const { createSuccessResponse, createFailResponse } = require("../const");
 const router = express.Router();
 const Article = require("../db/article");
-const ArticleComment =  require('../db/articleComment');
+const ArticleComment = require("../db/articleComment");
 
 router.get("/", async function (req, res, next) {
   try {
@@ -13,9 +13,9 @@ router.get("/", async function (req, res, next) {
         title: article.title,
         pushTime: article.createdAt,
         author: article.author,
-      }
-    })
-    res.json(createSuccessResponse(data))
+      };
+    });
+    res.json(createSuccessResponse(data));
   } catch (e) {
     next(e);
   }
@@ -27,15 +27,15 @@ router.get("/:id", async function (req, res, next) {
     const article = await Article.findOne({
       where: {
         id,
-      }
-    })
+      },
+    });
     const data = {
       title: article.title,
       content: article.content,
       pushTime: article.createdAt,
       author: article.author,
-    }
-    res.json(createSuccessResponse(data))
+    };
+    res.json(createSuccessResponse(data));
   } catch (e) {
     next(e);
   }
@@ -48,8 +48,8 @@ router.post("/create", async function (req, res, next) {
       title,
       content,
       author,
-    })
-    res.json(createSuccessResponse('success'));
+    });
+    res.json(createSuccessResponse("success"));
   } catch (e) {
     next(e);
   }
@@ -61,9 +61,9 @@ router.post("/delete", async function (req, res, next) {
     await Article.destroy({
       where: {
         id,
-      }
-    })
-    res.json(createSuccessResponse('success'));
+      },
+    });
+    res.json(createSuccessResponse("success"));
   } catch (e) {
     next(e);
   }
@@ -75,15 +75,15 @@ router.get("/:id/comments", async function (req, res, next) {
     const comments = await ArticleComment.findAll({
       where: {
         article_id: id,
-      }
-    })
+      },
+    });
     const data = comments.map((comment) => {
       return {
         id: comment.id,
         userName: comment.user_account,
         content: comment.content,
         pushTime: comment.createdAt,
-      }
+      };
     });
     res.json(createSuccessResponse(data));
   } catch (e) {
@@ -98,19 +98,17 @@ router.post("/comments/create", async function (req, res, next) {
       article_id: articleId,
       user_account: userAccount,
       content,
-    })
+    });
     const data = {
       id: comment.id,
       userName: comment.user_account,
       content: comment.content,
       pushTime: comment.createdAt,
-    }
+    };
     res.json(createSuccessResponse(data));
   } catch (e) {
     next(e);
   }
 });
-
-
 
 module.exports = router;

@@ -54,13 +54,13 @@ router.get("/:id", async function (req, res, next) {
       },
     });
     let data;
-    if (course.type === "video") {
+    if (course.tag === "video") {
       data = {
         id: course.id,
         title: course.title,
-        content: course.video,
+        video: course.video,
       };
-    } else if (course.type === "text") {
+    } else if (course.tag === "text") {
       data = {
         id: course.id,
         title: course.title,
@@ -85,6 +85,102 @@ router.post("/like", async function (req, res, next) {
     await Course.update(
       {
         like: course.like,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get("/admin/all", async function (req, res, next) {
+  try {
+    const courses = await Course.findAll();
+    const data = courses.map((course) => {
+      return {
+        id: course.id,
+        title: course.title,
+        type: course.type,
+        pushTime: course.createdAt,
+        teacher: course.teacher,
+        tag: course.tag,
+      };
+    });
+    res.json(createSuccessResponse(data));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get("/admin/:id", async function (req, res, next) {
+  try {
+    const { id } = req.params;
+    const course = await Course.findOne({
+      where: { id },
+    });
+    const data = {
+      id: course.id,
+      title: course.title,
+      type: course.type,
+      teacher: course.teacher,
+      tag: course.tag,
+      content: course.content,
+    };
+
+    res.json(createSuccessResponse(data));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/create", async function (req, res, next) {
+  try {
+    const { title, teacher, content, type, tag } = req.body;
+    let video = tag === "video" ? "xxx" : undefined;
+    await Course.create({
+      title,
+      teacher,
+      content,
+      type,
+      tag,
+      video,
+    });
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/delete", async function (req, res, next) {
+  try {
+    const { id } = req.body;
+    await Course.destroy({
+      where: {
+        id,
+      },
+    });
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/update", async function (req, res, next) {
+  try {
+    const { title, teacher, content, type, tag, id } = req.body;
+    console.log("update course", res.body);
+    await Course.update(
+      {
+        title,
+        teacher,
+        content,
+        type,
+        tag,
       },
       {
         where: {

@@ -18,9 +18,6 @@ Teacher.init(
     photo: {
       type: DataTypes.STRING,
     },
-    photo: {
-      type: DataTypes.STRING,
-    },
     record: {
       type: DataTypes.TEXT,
     },

@@ -11,6 +11,7 @@ router.get("/", async function (req, res, next) {
         id: teacher.id,
         name: teacher.name,
         imgurl: teacher.photo,
+        type: teacher.type,
       };
     });
     res.json(createSuccessResponse(data));
@@ -38,6 +39,61 @@ router.get("/:id", async function (req, res, next) {
       pushcourse: teacher.pushCourse,
     };
     res.json(createSuccessResponse(data));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/create", async function (req, res, next) {
+  try {
+    const { name, type, record, course, work, honor } = req.body;
+    const photo = "";
+    await Teacher.create({
+      name,
+      type,
+      work,
+      honor,
+      record,
+      pushCourse: course,
+      photo,
+    });
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/delete", async function (req, res, next) {
+  try {
+    const { id } = req.body;
+    await Teacher.destroy({
+      where: {
+        id,
+      },
+    });
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/update", async function (req, res, next) {
+  try {
+    const { name, type, record, course, work, honor, id } = req.body;
+    await Teacher.update(
+      {
+        name,
+        type,
+        work,
+        honor,
+        record,
+        pushCourse: course,
+      },
+      {
+        id,
+      }
+    );
+    res.json(createSuccessResponse("success"));
   } catch (e) {
     next(e);
   }

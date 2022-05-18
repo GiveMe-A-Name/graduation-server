@@ -46,13 +46,37 @@ router.get("/:id", async function (req, res, next) {
 
 router.post("/create", async function (req, res, next) {
   try {
-    const { title, content, origin, type } = req.body;
+    const { title, content, origin, type, author } = req.body;
     await News.create({
       title,
       content,
       origin,
       type,
+      author,
     });
+    res.json(createSuccessResponse("success"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/update", async function (req, res, next) {
+  try {
+    const { title, content, origin, type, author, id } = req.body;
+    await News.update(
+      {
+        title,
+        content,
+        origin,
+        type,
+        author,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
     res.json(createSuccessResponse("success"));
   } catch (e) {
     next(e);
